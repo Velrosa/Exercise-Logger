@@ -11,7 +11,7 @@ namespace Exercise_Logger
     {
         Task<IEnumerable<Exercise>> Get();
         Task<Exercise> Get(int id);
-        Task<Exercise> Create(Exercise exercise);
+        Task Create(Exercise exercise);
         Task Update(Exercise exercise);
         Task Delete(int id);
     }

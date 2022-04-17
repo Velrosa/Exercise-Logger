@@ -17,11 +17,10 @@ namespace Exercise_Logger
             _context = context;
         }
 
-        public async Task<Exercise> Create(Exercise exercise)
+        public async Task Create(Exercise exercise)
         {
             _context.Exercise.Add(exercise);
             await _context.SaveChangesAsync();
-            return exercise;
         }
 
         public async Task Delete(int id)
@@ -43,7 +42,12 @@ namespace Exercise_Logger
 
         public async Task Update(Exercise exercise)
         {
-            _context.Entry(exercise).State = EntityState.Modified;
+            var exerciseToUpdate = await _context.Exercise.FindAsync(exercise.Id);
+            exerciseToUpdate.DateStart = exercise.DateStart;
+            exerciseToUpdate.DateEnd = exercise.DateEnd;
+            exerciseToUpdate.Duration = exercise.Duration;
+            exerciseToUpdate.Comments = exercise.Comments;
+            _context.Entry(exerciseToUpdate).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
     }
