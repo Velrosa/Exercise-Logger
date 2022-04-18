@@ -1,4 +1,5 @@
-﻿using Exercise_Logger.Models;
+﻿using Autofac;
+using Exercise_Logger.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -9,11 +10,17 @@ namespace Exercise_Logger
         static async Task Main(string[] args)
         {
 
-            UserInput userInput = new UserInput(new ExerciseService(new ExerciseController(new ExerciseRepository(new ExerciseContext()))));
+            //UserInput userInput = new UserInput(new ExerciseService(new ExerciseController(new ExerciseRepository(new ExerciseContext()))));
+            var container = ContainerConfig.Configure();
 
-            while(true)
+            while (true)
             {
-                await userInput.MainMenu();
+                using (var scope = container.BeginLifetimeScope())
+                {
+                    var startup = scope.Resolve<StartUp>();
+                    { }
+                    await startup.Run();
+                }
             }
         }
     }

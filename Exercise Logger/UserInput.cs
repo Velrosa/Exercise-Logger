@@ -75,33 +75,33 @@ namespace Exercise_Logger
             Console.Write("\n Enter the ID you wish to fetch: ");
             string id = Validator.IsNumberValid(Console.ReadLine());
             if (id == "MENU") return;
-            
+
             List<Exercise> tableData = new List<Exercise>();
             Exercise exercise = await _exerciseService.FetchExercise(int.Parse(id));
             tableData.Add(exercise);
             TableVisuals.ShowTable(tableData);
         }
 
-        
+
         internal async Task InputAddExercise()
         {
             Exercise exercise = new();
 
             Console.WriteLine("\n Adding a new Exercise...");
-            
+
             Console.Write("\n Start Date (DD/MM/YY HH:MM): ");
             string start = Validator.IsDateValid(Console.ReadLine());
             if (start == "MENU") return;
             exercise.DateStart = DateTime.Parse(start);
-            
+
             Console.Write("\n End Date (DD/MM/YY HH:MM): ");
             string end = Validator.IsDateValid(Console.ReadLine());
             if (end == "MENU") return;
             exercise.DateEnd = DateTime.Parse(end);
 
             CheckTimeSpan(exercise);
-            if(exercise.Duration.TotalMinutes == 0) return;
-            
+            if (exercise.Duration.TotalMinutes == 0) return;
+
             Console.Write("\n Comments: ");
             string comment = Validator.IsStringValid(Console.ReadLine());
             if (comment == "MENU") return;
@@ -113,9 +113,9 @@ namespace Exercise_Logger
         internal async Task InputEditExercise()
         {
             Exercise exercise = new Exercise();
-            
+
             await FetchAllExercises();
-            
+
             Console.WriteLine("\n Updating an Exercise...");
 
             Console.Write("\n Enter the ID of the record you wish to change: ");
@@ -134,7 +134,7 @@ namespace Exercise_Logger
             exercise.DateEnd = DateTime.Parse(end);
 
             CheckTimeSpan(exercise);
-            if(exercise.Duration.TotalMinutes == 0) return;
+            if (exercise.Duration.TotalMinutes == 0) return;
 
             Console.Write("\n Comments: ");
             string comment = Validator.IsStringValid(Console.ReadLine());
@@ -163,20 +163,20 @@ namespace Exercise_Logger
 
         internal void CheckTimeSpan(Exercise exercise)
         {
-            if(exercise.DateEnd <= exercise.DateStart)
+            if (exercise.DateEnd <= exercise.DateStart)
             {
                 Console.WriteLine("\n Invalid Timespan between dates provided.");
                 return;
             }
-            
+
             int hoursPassed = exercise.DateEnd.Hour - exercise.DateStart.Hour;
-            
-            if(hoursPassed > 24)
+
+            if (hoursPassed > 24)
             {
                 Console.WriteLine("\n No more than 24 hours between dates");
                 return;
             }
-            
+
             exercise.Duration = exercise.DateEnd - exercise.DateStart;
         }
     }
