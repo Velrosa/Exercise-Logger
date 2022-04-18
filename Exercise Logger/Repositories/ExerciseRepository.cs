@@ -43,11 +43,8 @@ namespace Exercise_Logger
         public async Task Update(Exercise exercise)
         {
             var exerciseToUpdate = await _context.Exercise.FindAsync(exercise.Id);
-            exerciseToUpdate.DateStart = exercise.DateStart;
-            exerciseToUpdate.DateEnd = exercise.DateEnd;
-            exerciseToUpdate.Duration = exercise.Duration;
-            exerciseToUpdate.Comments = exercise.Comments;
-            _context.Entry(exerciseToUpdate).State = EntityState.Modified;
+
+            _context.Entry(exerciseToUpdate).CurrentValues.SetValues(exercise);
             await _context.SaveChangesAsync();
         }
     }

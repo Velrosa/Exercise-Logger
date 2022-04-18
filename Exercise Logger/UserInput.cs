@@ -136,7 +136,7 @@ namespace Exercise_Logger
             CheckTimeSpan(exercise);
             if(exercise.Duration.TotalMinutes == 0) return;
 
-            Console.Write("Comments: ");
+            Console.Write("\n Comments: ");
             string comment = Validator.IsStringValid(Console.ReadLine());
             if (comment == "MENU") return;
             exercise.Comments = comment;
